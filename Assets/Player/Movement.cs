@@ -12,6 +12,8 @@ public class Movement : MonoBehaviour
     public float moveSpeed;
     public float jumpSpeed;
 
+    public float minHeightToShowJumpAnimation;
+
     public LayerMask groundLayer;
 
     private Rigidbody2D rigidbody;
@@ -81,7 +83,10 @@ public class Movement : MonoBehaviour
                 {
                     float? distanceAboveGround = CalculateDistanceAboveGround();
 
-                    if (distanceAboveGround == null || distanceAboveGround >= 2.0f)
+                    if (
+                        distanceAboveGround == null ||
+                        distanceAboveGround >= minHeightToShowJumpAnimation
+                    )
                     {
                         jumpingState = JumpingState.FlyingUp;
                     }
