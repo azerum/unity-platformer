@@ -937,8 +937,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 484025939}
-  bottomLeftLimit: {x: 5.43, y: -2.57}
-  topRightLimit: {x: 21.47, y: 2.65}
+  background: {fileID: 1412677374}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -966,7 +965,7 @@ Camera:
   far clip plane: 100
   field of view: 60
   orthographic: 1
-  orthographic size: 6.86486
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -990,7 +989,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.33, y: -0.79, z: -10}
+  m_LocalPosition: {x: 5.64, y: -2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1267,7 +1266,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1412677374}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.725678, y: -0, z: 0}
+  m_LocalPosition: {x: 13.5091, y: 0.3389, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1318,7 +1317,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 41.551384, y: 15.36}
+  m_Size: {x: 41.024548, y: 14.68218}
   m_AdaptiveModeThreshold: 1
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -3027,7 +3026,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5921891749308596210, guid: eb6f20d61264849f1866a289720ff79a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.56
+      value: -5.94
       objectReference: {fileID: 0}
     - target: {fileID: 5921891749308596210, guid: eb6f20d61264849f1866a289720ff79a, type: 3}
       propertyPath: m_LocalPosition.y

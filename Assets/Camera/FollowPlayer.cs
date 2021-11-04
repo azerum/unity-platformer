@@ -3,37 +3,35 @@ using UnityEngine;
 public class FollowPlayer : MonoBehaviour
 {
     public GameObject player;
+    public GameObject background;
 
-    public Vector2 bottomLeftLimit;
-    public Vector2 topRightLimit;
+    private Vector2 cameraMinPosition;
+    private Vector2 cameraMaxPosition;
 
-    private Vector3 lastPlayerPosition;
+    public void Start()
+    {
+        Camera camera = gameObject.GetComponent<Camera>();
+        Vector2 cameraHalfSize = CalculateCameraHalfSizeInUnits(camera);
 
-    private Camera camera;
+        Bounds backgroundBounds = background.GetComponent<SpriteRenderer>().bounds;
 
-    //public void Start()
-    //{
-    //    camera = gameObject.GetComponent<Camera>();
-    //}
+        cameraMinPosition = (Vector2)backgroundBounds.min + cameraHalfSize;
+        cameraMaxPosition = (Vector2)backgroundBounds.max - cameraHalfSize;
+    }
 
-    //public void LateUpdate()
-    //{
-    //    Vector3 playerPosition = player.transform.position;
+    private Vector2 CalculateCameraHalfSizeInUnits(Camera camera)
+    {
+        Vector3 cameraCenter = camera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f));
+        Vector3 cameraBottomLeft = camera.ViewportToWorldPoint(Vector3.zero);
 
-    //    if (lastPlayerPosition == playerPosition)
-    //    {
-    //        return;
-    //    }
+        return cameraCenter - cameraBottomLeft;
+    }
 
-    //    lastPlayerPosition = playerPosition;
+    public void LateUpdate()
+    {
+        Vector2 newPosition = Vector2.Max(cameraMinPosition, player.transform.position);
+        newPosition = Vector2.Min(cameraMaxPosition, newPosition);
 
-    //    Vector2 newPosition = Vector2.Max(bottomLeftLimit, playerPosition);
-    //    newPosition = Vector2.Min(newPosition, topRightLimit);
-
-    //    gameObject.transform.position = new Vector3(
-    //        newPosition.x,
-    //        newPosition.y,
-    //        gameObject.transform.position.z
-    //    );
-    //}
+        transform.position = new Vector3(newPosition.x, newPosition.y, transform.position.z);
+    }
 }
