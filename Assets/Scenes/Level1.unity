@@ -979,18 +979,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5921891749308596212, guid: eb6f20d61264849f1866a289720ff79a, type: 3}
   m_PrefabInstance: {fileID: 5921891748923990198}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &484025945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 484025939}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e72b2f9c9de2a4f3ea5659e05d3b37ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1060,7 +1048,7 @@ Camera:
   far clip plane: 100
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 6.86486
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1084,7 +1072,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.93, y: -2.66, z: -10}
+  m_LocalPosition: {x: 13.51, y: -0.7, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1430,13 +1418,13 @@ GameObject:
   - component: {fileID: 1428895449}
   - component: {fileID: 1428895448}
   - component: {fileID: 1428895450}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Platforms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1428895447
 Transform:
   m_ObjectHideFlags: 0
@@ -2245,13 +2233,13 @@ GameObject:
   - component: {fileID: 1591295670}
   - component: {fileID: 1591295669}
   - component: {fileID: 1591295671}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: StraightLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1591295668
 Transform:
   m_ObjectHideFlags: 0
@@ -3147,10 +3135,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5921891748923990195, guid: eb6f20d61264849f1866a289720ff79a, type: 3}
-      propertyPath: ground
-      value: 
-      objectReference: {fileID: 1591295667}
     - target: {fileID: 5921891749308596210, guid: eb6f20d61264849f1866a289720ff79a, type: 3}
       propertyPath: m_RootOrder
       value: 3

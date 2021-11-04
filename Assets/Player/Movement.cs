@@ -13,8 +13,7 @@ public class Movement : MonoBehaviour
     public float moveSpeed;
     public float jumpSpeed;
 
-    public GameObject ground;
-    private TilemapCollider2D groundCollider;
+    public LayerMask groundLayer;
 
     private Rigidbody2D rigidbody;
     private BoxCollider2D legsCollider;
@@ -25,9 +24,7 @@ public class Movement : MonoBehaviour
     private JumpingState jumpingState;
 
     public void Start()
-    { 
-        groundCollider = ground.GetComponent<TilemapCollider2D>();
-
+    {
         rigidbody = gameObject.GetComponent<Rigidbody2D>();
         legsCollider = gameObject.GetComponentInChildren<BoxCollider2D>();
 
@@ -67,26 +64,32 @@ public class Movement : MonoBehaviour
     private void HandleJumping(ref Vector2 velocity)
     {
         float jumpInput = Input.GetAxis("Jump");
-
-        float legsGroundDistance = legsCollider.Distance(groundCollider).distance;
-        bool isGrounded = legsGroundDistance <= 0.0f;
+        bool isGrounded = legsCollider.IsTouchingLayers(groundLayer);
 
         switch (jumpingState)
         {
             case JumpingState.NotJumping:
-                if (isGrounded && jumpInput > 0.0f)
+                if (isGrounded)
                 {
-                    velocity.y = jumpInput * jumpSpeed;
-                    jumpingState = JumpingState.FlyingUp;
+                    if (jumpInput > 0.0f)
+                    {
+                        velocity.y = jumpInput * jumpSpeed;
+                        jumpingState = JumpingState.FlyingUp;
+                    }
                 }
-                else if (legsGroundDistance >= 1.0f)
+                else
                 {
-                    jumpingState = JumpingState.FlyingUp;
+                    float? distanceAboveGround = CalculateDistanceAboveGround();   
+
+                    if (distanceAboveGround == null || distanceAboveGround >= 2.0f)
+                    {
+                        jumpingState = JumpingState.FlyingUp;
+                    }
                 }
                 break;
 
             case JumpingState.FlyingUp:
-                if (!isGrounded && velocity.y <= 0.0f)
+                if (velocity.y <= 0.0f)
                 {
                     jumpingState = JumpingState.Landing;
                 }
@@ -101,5 +104,22 @@ public class Movement : MonoBehaviour
         }
         
         animator.SetInteger("jumpingState", (int)jumpingState);
+    }
+
+    private float? CalculateDistanceAboveGround()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(
+            transform.position,
+            Vector2.down,
+            Mathf.Infinity, groundLayer
+        );
+
+        //Player is not above the ground (for example, player may be jumping over a pit)
+        if (hit.collider == null)
+        {
+            return null;
+        }
+
+        return hit.distance;
     }
 }

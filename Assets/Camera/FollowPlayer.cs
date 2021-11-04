@@ -11,14 +11,10 @@ public class FollowPlayer : MonoBehaviour
 
     private Camera camera;
 
-    public void Start()
-    {
-        camera = gameObject.GetComponent<Camera>();
-
-        Debug.Log(
-            bottomLeftLimit + camera.pixelRect.size / 2
-        );
-    }
+    //public void Start()
+    //{
+    //    camera = gameObject.GetComponent<Camera>();
+    //}
 
     //public void LateUpdate()
     //{
