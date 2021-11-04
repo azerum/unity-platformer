@@ -1,6 +1,13 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+public enum JumpingState
+{
+    NotJumping,
+    FlyingUp,
+    Landing
+}
+
 public class Movement : MonoBehaviour
 {
     public float moveSpeed;
@@ -15,8 +22,10 @@ public class Movement : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Animator animator;
 
+    private JumpingState jumpingState;
+
     public void Start()
-    {
+    { 
         groundCollider = ground.GetComponent<TilemapCollider2D>();
 
         rigidbody = gameObject.GetComponent<Rigidbody2D>();
@@ -24,42 +33,62 @@ public class Movement : MonoBehaviour
 
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         animator = gameObject.GetComponent<Animator>();
+
+        jumpingState = JumpingState.NotJumping;
     }
 
     public void FixedUpdate()
     {
         Vector2 velocity = rigidbody.velocity;
 
-        float moveInput = Input.GetAxis("Horizontal");
-        bool isGrounded = legsCollider.IsTouching(groundCollider);
-
-        if (moveInput == 0 && isGrounded)
-        {
-            velocity.x = 0;
-            SetIsRunning(false);
-        }
-        else
-        {
-            bool isMovingLeft = moveInput < 0;
-
-            velocity.x = isMovingLeft ? -moveSpeed : moveSpeed;
-            spriteRenderer.flipX = isMovingLeft;
-
-            SetIsRunning(true);
-        }
-
-        float jumpInput = Input.GetAxis("Jump");
-
-        if (jumpInput > 0 && isGrounded)
-        {
-            velocity.y = jumpSpeed;
-        }
+        HandleRunning(ref velocity);
+        HandleJumping(ref velocity);
 
         rigidbody.velocity = velocity;
     }
 
-    private void SetIsRunning(bool isRunning)
+    private void HandleRunning(ref Vector2 velocity)
     {
-        animator.SetBool("isRunning", isRunning);
+        float moveInput = Input.GetAxis("Horizontal");
+        velocity.x = moveInput * moveSpeed;
+
+        animator.SetBool("isRunning", velocity.x != 0.0f);
+
+        if (velocity.x < 0.0f)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else if (velocity.x > 0.0f)
+        {
+            spriteRenderer.flipX = false;
+        }
+    }
+
+    private void HandleJumping(ref Vector2 velocity)
+    {
+        float jumpInput = Input.GetAxis("Jump");
+        bool isGrounded = legsCollider.IsTouching(groundCollider);
+
+        if (isGrounded)
+        {
+            if (jumpInput > 0.0f)
+            {
+                velocity.y = jumpInput * jumpSpeed;
+                jumpingState = JumpingState.FlyingUp;
+            }
+            else
+            {
+                jumpingState = JumpingState.NotJumping;
+            }
+        }
+        else
+        {
+            if (velocity.y <= 0.0f)
+            {
+                jumpingState = JumpingState.Landing;
+            }
+        }
+        
+        animator.SetInteger("jumpingState", (int)jumpingState);
     }
 }
