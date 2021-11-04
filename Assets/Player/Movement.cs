@@ -1,9 +1,8 @@
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public enum JumpingState
 {
-    NotJumping,
+    Grounded,
     FlyingUp,
     Landing
 }
@@ -31,7 +30,7 @@ public class Movement : MonoBehaviour
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         animator = gameObject.GetComponent<Animator>();
 
-        jumpingState = JumpingState.NotJumping;
+        jumpingState = JumpingState.Grounded;
     }
 
     public void FixedUpdate()
@@ -62,30 +61,32 @@ public class Movement : MonoBehaviour
     }
 
     private void HandleJumping(ref Vector2 velocity)
-    {
-        float jumpInput = Input.GetAxis("Jump");
-        bool isGrounded = legsCollider.IsTouchingLayers(groundLayer);
+    {  
+        if (legsCollider.IsTouchingLayers(groundLayer))
+        {
+            jumpingState = JumpingState.Grounded;
+        }
 
         switch (jumpingState)
         {
-            case JumpingState.NotJumping:
-                if (isGrounded)
+            case JumpingState.Grounded:
+                float jumpInput = Input.GetAxis("Jump");
+
+                if (jumpInput > 0.0f)
                 {
-                    if (jumpInput > 0.0f)
-                    {
-                        velocity.y = jumpInput * jumpSpeed;
-                        jumpingState = JumpingState.FlyingUp;
-                    }
+                    velocity.y = jumpInput * jumpSpeed;
+                    jumpingState = JumpingState.FlyingUp;
                 }
                 else
                 {
-                    float? distanceAboveGround = CalculateDistanceAboveGround();   
+                    float? distanceAboveGround = CalculateDistanceAboveGround();
 
                     if (distanceAboveGround == null || distanceAboveGround >= 2.0f)
                     {
                         jumpingState = JumpingState.FlyingUp;
                     }
                 }
+
                 break;
 
             case JumpingState.FlyingUp:
@@ -94,27 +95,25 @@ public class Movement : MonoBehaviour
                     jumpingState = JumpingState.Landing;
                 }
                 break;
-
-            case JumpingState.Landing:
-                if (isGrounded)
-                {
-                    jumpingState = JumpingState.NotJumping;
-                }
-                break;
         }
         
         animator.SetInteger("jumpingState", (int)jumpingState);
     }
 
+    /// <summary>
+    /// Returns a distance from the center of the player to the ground
+    /// below him. If there is no ground below the player (for example,
+    /// player is jumping over a pit), function returns <c>null</c>
+    /// </summary>
     private float? CalculateDistanceAboveGround()
     {
         RaycastHit2D hit = Physics2D.Raycast(
             transform.position,
             Vector2.down,
-            Mathf.Infinity, groundLayer
+            Mathf.Infinity,
+            groundLayer
         );
 
-        //Player is not above the ground (for example, player may be jumping over a pit)
         if (hit.collider == null)
         {
             return null;
