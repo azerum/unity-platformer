@@ -67,26 +67,37 @@ public class Movement : MonoBehaviour
     private void HandleJumping(ref Vector2 velocity)
     {
         float jumpInput = Input.GetAxis("Jump");
-        bool isGrounded = legsCollider.IsTouching(groundCollider);
 
-        if (isGrounded)
+        float legsGroundDistance = legsCollider.Distance(groundCollider).distance;
+        bool isGrounded = legsGroundDistance <= 0.0f;
+
+        switch (jumpingState)
         {
-            if (jumpInput > 0.0f)
-            {
-                velocity.y = jumpInput * jumpSpeed;
-                jumpingState = JumpingState.FlyingUp;
-            }
-            else
-            {
-                jumpingState = JumpingState.NotJumping;
-            }
-        }
-        else
-        {
-            if (velocity.y <= 0.0f)
-            {
-                jumpingState = JumpingState.Landing;
-            }
+            case JumpingState.NotJumping:
+                if (isGrounded && jumpInput > 0.0f)
+                {
+                    velocity.y = jumpInput * jumpSpeed;
+                    jumpingState = JumpingState.FlyingUp;
+                }
+                else if (legsGroundDistance >= 1.0f)
+                {
+                    jumpingState = JumpingState.FlyingUp;
+                }
+                break;
+
+            case JumpingState.FlyingUp:
+                if (!isGrounded && velocity.y <= 0.0f)
+                {
+                    jumpingState = JumpingState.Landing;
+                }
+                break;
+
+            case JumpingState.Landing:
+                if (isGrounded)
+                {
+                    jumpingState = JumpingState.NotJumping;
+                }
+                break;
         }
         
         animator.SetInteger("jumpingState", (int)jumpingState);
