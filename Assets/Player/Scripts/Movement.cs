@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public enum JumpingState
@@ -9,40 +10,53 @@ public enum JumpingState
 
 public class Movement : MonoBehaviour
 {
+    private Rigidbody2D playerRigidbody;
+
     public float moveSpeed;
     public float jumpSpeed;
 
     public float minHeightToShowJumpAnimation;
 
-    public LayerMask groundLayer;
-
-    private Rigidbody2D rigidbody;
-    private BoxCollider2D legsCollider;
-
     private SpriteRenderer spriteRenderer;
     private Animator animator;
-
     private JumpingState jumpingState;
+
+    public LayerMask groundLayer;
+    private BoxCollider2D legsCollider;
+
+    public float knockbackRadius;
+    public float knockbackTimestepsCount;
+
+    private bool ignoreInput;
+    private Coroutine knockbackCoroutine;
 
     public void Start()
     {
-        rigidbody = gameObject.GetComponent<Rigidbody2D>();
-        legsCollider = gameObject.GetComponentInChildren<BoxCollider2D>();
+        playerRigidbody = gameObject.GetComponent<Rigidbody2D>();
 
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         animator = gameObject.GetComponent<Animator>();
-
         jumpingState = JumpingState.NotJumping;
+
+        legsCollider = gameObject.GetComponentInChildren<BoxCollider2D>();
+
+        ignoreInput = false;
+        knockbackCoroutine = null;
     }
 
     public void FixedUpdate()
     {
-        Vector2 velocity = rigidbody.velocity;
+        if (ignoreInput)
+        {
+            return;
+        }
+
+        Vector2 velocity = playerRigidbody.velocity;
 
         HandleRunning(ref velocity);
         HandleJumping(ref velocity);
 
-        rigidbody.velocity = velocity;
+        playerRigidbody.velocity = velocity;
     }
 
     private void HandleRunning(ref Vector2 velocity)
@@ -63,13 +77,11 @@ public class Movement : MonoBehaviour
     }
 
     private void HandleJumping(ref Vector2 velocity)
-    {
-        bool isGrounded = legsCollider.IsTouchingLayers(groundLayer);
-        
+    {   
         switch (jumpingState)
         {
             case JumpingState.NotJumping:
-                if (isGrounded)
+                if (IsGrounded())
                 {
                     float jumpInput = Input.GetAxis("Jump");
 
@@ -101,7 +113,7 @@ public class Movement : MonoBehaviour
                 break;
 
             case JumpingState.Landing:
-                if (isGrounded)
+                if (IsGrounded())
                 {
                     jumpingState = JumpingState.NotJumping;
                 }
@@ -111,12 +123,17 @@ public class Movement : MonoBehaviour
         animator.SetInteger("jumpingState", (int)jumpingState);
     }
 
+    bool IsGrounded()
+    {
+        return legsCollider.IsTouchingLayers(groundLayer);
+    }
+
     /// <summary>
     /// Returns a distance from the center of the player to the ground
     /// below him. If there is no ground below the player (for example,
     /// player is jumping over a pit), the function returns <c>null</c>
     /// </summary>
-    private float? CalculateDistanceAboveGround()
+    float? CalculateDistanceAboveGround()
     {
         RaycastHit2D hit = Physics2D.Raycast(
             transform.position,
@@ -131,5 +148,41 @@ public class Movement : MonoBehaviour
         }
 
         return hit.distance;
+    }
+
+    public void Knockback(in Vector2 direction)
+    {
+        if (knockbackCoroutine != null)
+        {
+            StopCoroutine(knockbackCoroutine);
+        }
+
+        knockbackCoroutine = StartCoroutine(DoKnockback(direction));
+    }
+
+    private IEnumerator DoKnockback(Vector2 direction)
+    {
+        ignoreInput = true;
+
+        //S = v_i * t + (1/2)at^2
+        //a = 2 * (S - (v_i * t)) / t^2
+
+        //Consider v_i to be 0
+        playerRigidbody.velocity = Vector2.zero;
+
+        float duration = knockbackTimestepsCount * Time.fixedDeltaTime;
+        float acceleration = 2 * knockbackRadius / (duration * duration);
+
+        float speedChangeStep = acceleration * Time.fixedDeltaTime;
+        Vector2 velocityChangeStep = direction * speedChangeStep;
+
+        for (int i = 0; i < knockbackTimestepsCount; ++i)
+        {
+            playerRigidbody.velocity += velocityChangeStep;
+            yield return new WaitForFixedUpdate();
+        }
+
+        playerRigidbody.velocity = Vector2.zero;
+        ignoreInput = false;
     }
 }
