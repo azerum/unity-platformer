@@ -165,7 +165,7 @@ public class Movement : MonoBehaviour
         for (int i = 0; i < durationInTimesteps; ++i)
         {
             playerRigidbody.AddForce(forceVector, ForceMode2D.Force);
-            yield return new WaitForFixedUpdate();
+            yield return new WaitForEndOfFrame();
         }
 
         playerRigidbody.velocity = Vector2.zero;

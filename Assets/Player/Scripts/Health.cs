@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using UnityEngine;
 
 public class Health : MonoBehaviour
@@ -7,21 +7,35 @@ public class Health : MonoBehaviour
     private int hp;
 
     public float damageAnimationDuration = 1.0f;
-    private float damageAnimationTimeLeft;
 
-    private SpriteRenderer spriteRenderer;
+    private Animator animator;
+    private Coroutine redFlashing;
 
     public void Start()
     {
         hp = maxHP;
 
-        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-        damageAnimationTimeLeft = 0.0f;
+        animator = gameObject.GetComponent<Animator>();
+        redFlashing = null;
     }
 
     public void GetDamage(int damage)
     {
         hp -= damage;
-        damageAnimationTimeLeft += damageAnimationDuration;
+
+        if (redFlashing != null)
+        {
+            StopCoroutine(redFlashing);
+        }
+
+        redFlashing = StartCoroutine(RedFlashing());
+    }
+
+    private IEnumerator RedFlashing()
+    {
+        animator.SetBool("isRedFlashing", true);
+        yield return new WaitForSeconds(damageAnimationDuration);
+
+        animator.SetBool("isRedFlashing", false);
     }
 }
