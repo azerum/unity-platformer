@@ -251,8 +251,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  knockbackRadius: 10
-  knockbackTimestepsCount: 10
+  force: 200
+  durationInTimesteps: 7
 --- !u!114 &2852452469940891850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,3 +278,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
+  damageAnimationDuration: 10

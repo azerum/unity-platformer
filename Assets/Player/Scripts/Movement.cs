@@ -10,43 +10,44 @@ public enum JumpingState
 
 public class Movement : MonoBehaviour
 {
-    private Rigidbody2D playerRigidbody;
-
+    [Header("Movement")]
     public float moveSpeed;
     public float jumpSpeed;
 
     public float minHeightToShowJumpAnimation;
 
-    private SpriteRenderer spriteRenderer;
-    private Animator animator;
-    private JumpingState jumpingState;
-
     public LayerMask groundLayer;
+
+    [Header("Knockback")]
+    public float force;
+    public int durationInTimesteps;
+
+    private Rigidbody2D playerRigidbody;
     private BoxCollider2D legsCollider;
 
-    public float knockbackRadius;
-    public float knockbackTimestepsCount;
+    private SpriteRenderer spriteRenderer;
+    private Animator animator;
 
-    private bool ignoreInput;
-    private Coroutine knockbackCoroutine;
+    private JumpingState jumpingState;
+
+    private int activeKnockbacksCount;
 
     public void Start()
     {
         playerRigidbody = gameObject.GetComponent<Rigidbody2D>();
+        legsCollider = gameObject.GetComponentInChildren<BoxCollider2D>();
 
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         animator = gameObject.GetComponent<Animator>();
+
         jumpingState = JumpingState.NotJumping;
 
-        legsCollider = gameObject.GetComponentInChildren<BoxCollider2D>();
-
-        ignoreInput = false;
-        knockbackCoroutine = null;
+        activeKnockbacksCount = 0;
     }
 
     public void FixedUpdate()
     {
-        if (ignoreInput)
+        if (activeKnockbacksCount > 0)
         {
             return;
         }
@@ -123,7 +124,7 @@ public class Movement : MonoBehaviour
         animator.SetInteger("jumpingState", (int)jumpingState);
     }
 
-    bool IsGrounded()
+    private bool IsGrounded()
     {
         return legsCollider.IsTouchingLayers(groundLayer);
     }
@@ -133,7 +134,7 @@ public class Movement : MonoBehaviour
     /// below him. If there is no ground below the player (for example,
     /// player is jumping over a pit), the function returns <c>null</c>
     /// </summary>
-    float? CalculateDistanceAboveGround()
+    private float? CalculateDistanceAboveGround()
     {
         RaycastHit2D hit = Physics2D.Raycast(
             transform.position,
@@ -152,37 +153,23 @@ public class Movement : MonoBehaviour
 
     public void Knockback(in Vector2 direction)
     {
-        if (knockbackCoroutine != null)
-        {
-            StopCoroutine(knockbackCoroutine);
-        }
-
-        knockbackCoroutine = StartCoroutine(DoKnockback(direction));
+        StartCoroutine(DoKnockback(direction));
     }
 
     private IEnumerator DoKnockback(Vector2 direction)
     {
-        ignoreInput = true;
+        ++activeKnockbacksCount;
 
-        //S = v_i * t + (1/2)at^2
-        //a = 2 * (S - (v_i * t)) / t^2
+        Vector2 forceVector = direction * force;
 
-        //Consider v_i to be 0
-        playerRigidbody.velocity = Vector2.zero;
-
-        float duration = knockbackTimestepsCount * Time.fixedDeltaTime;
-        float acceleration = 2 * knockbackRadius / (duration * duration);
-
-        float speedChangeStep = acceleration * Time.fixedDeltaTime;
-        Vector2 velocityChangeStep = direction * speedChangeStep;
-
-        for (int i = 0; i < knockbackTimestepsCount; ++i)
+        for (int i = 0; i < durationInTimesteps; ++i)
         {
-            playerRigidbody.velocity += velocityChangeStep;
+            playerRigidbody.AddForce(forceVector, ForceMode2D.Force);
             yield return new WaitForFixedUpdate();
         }
 
         playerRigidbody.velocity = Vector2.zero;
-        ignoreInput = false;
+
+        --activeKnockbacksCount;
     }
 }
