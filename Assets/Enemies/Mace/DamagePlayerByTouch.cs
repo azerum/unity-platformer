@@ -14,9 +14,14 @@ public class DamagePlayerByTouch : MonoBehaviour
             return;
         }
 
+        int damage = random.Next(minDamage, maxDamageExclusive);
+
+        Health health = collision.gameObject.GetComponent<Health>();
+        health.GetDamage(damage);
+
         ContactPoint2D hit = collision.GetContact(0);
 
-        HealthAndDamage health = collision.gameObject.GetComponent<HealthAndDamage>();
-        health.GetDamageInDirection(20, -hit.normal);
+        KnockbackOnDamage knockback = collision.gameObject.GetComponent<KnockbackOnDamage>();
+        knockback?.KnockbackInDirection(-hit.normal);
     }
 }
