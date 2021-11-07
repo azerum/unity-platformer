@@ -264,9 +264,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
-  knockbackForce: 100
-  knockbackDuration: 0.5
-  redFlashingDuration: 1
+  knockbackForce: 300
+  knockbackDuration: 0.1
+  redFlashingDuration: 2
 --- !u!114 &2852452469940891850
 MonoBehaviour:
   m_ObjectHideFlags: 0

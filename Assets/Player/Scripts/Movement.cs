@@ -1,12 +1,4 @@
-using System.Collections;
 using UnityEngine;
-
-public enum JumpingState
-{
-    NotJumping,
-    FlyingUp,
-    Landing
-}
 
 public class Movement : MonoBehaviour
 {
@@ -23,8 +15,15 @@ public class Movement : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Animator animator;
 
-    private JumpingState jumpingState;
-    private bool isFreezed;
+    enum FlyingAnimationState
+    {
+        NotFlying,
+        FlyingUp,
+        Landing
+    }
+
+    private FlyingAnimationState flyingAnimationState;
+    private bool isFrozen;
 
     public void Start()
     {
@@ -34,13 +33,13 @@ public class Movement : MonoBehaviour
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         animator = gameObject.GetComponent<Animator>();
 
-        jumpingState = JumpingState.NotJumping;
-        isFreezed = false;
+        flyingAnimationState = FlyingAnimationState.NotFlying;
+        isFrozen = false;
     }
 
     public void FixedUpdate()
     {
-        if (isFreezed)
+        if (isFrozen)
         {
             return;
         }
@@ -72,9 +71,9 @@ public class Movement : MonoBehaviour
 
     private void HandleJumping(ref Vector2 velocity)
     {   
-        switch (jumpingState)
+        switch (flyingAnimationState)
         {
-            case JumpingState.NotJumping:
+            case FlyingAnimationState.NotFlying:
                 if (IsGrounded())
                 {
                     float jumpInput = Input.GetAxis("Jump");
@@ -82,7 +81,7 @@ public class Movement : MonoBehaviour
                     if (jumpInput > 0.0f)
                     {
                         velocity.y = jumpInput * jumpSpeed;
-                        jumpingState = JumpingState.FlyingUp;
+                        flyingAnimationState = FlyingAnimationState.FlyingUp;
                     }
                 }
                 else
@@ -94,27 +93,27 @@ public class Movement : MonoBehaviour
                         distanceAboveGround >= minHeightToShowJumpAnimation
                     )
                     {
-                        jumpingState = JumpingState.FlyingUp;
+                        flyingAnimationState = FlyingAnimationState.FlyingUp;
                     }
                 }
                 break;
 
-            case JumpingState.FlyingUp:
+            case FlyingAnimationState.FlyingUp:
                 if (velocity.y <= 0.0f)
                 {
-                    jumpingState = JumpingState.Landing;
+                    flyingAnimationState = FlyingAnimationState.Landing;
                 }
                 break;
 
-            case JumpingState.Landing:
+            case FlyingAnimationState.Landing:
                 if (IsGrounded())
                 {
-                    jumpingState = JumpingState.NotJumping;
+                    flyingAnimationState = FlyingAnimationState.NotFlying;
                 }
                 break;
         }
 
-        animator.SetInteger("jumpingState", (int)jumpingState);
+        animator.SetInteger("flyingState", (int)flyingAnimationState);
     }
 
     private bool IsGrounded()
@@ -146,18 +145,18 @@ public class Movement : MonoBehaviour
 
     public void Freeze()
     {
-        if (!isFreezed)
+        if (!isFrozen)
         {
-            isFreezed = true;
+            isFrozen = true;
             animator.speed = 0.0f;
         }
     }
 
     public void Unfreeze()
     {
-        if (isFreezed)
+        if (isFrozen)
         {
-            isFreezed = false;
+            isFrozen = false;
             animator.speed = 1.0f;
         }
     }

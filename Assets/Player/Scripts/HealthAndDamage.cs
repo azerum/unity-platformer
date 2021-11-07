@@ -66,7 +66,7 @@ public class HealthAndDamage : MonoBehaviour
         {
             playerRigidbody.AddForce(forceVector, ForceMode2D.Force);
 
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
             timeLeft -= Time.deltaTime;
         }
 
