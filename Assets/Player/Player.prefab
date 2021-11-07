@@ -117,8 +117,8 @@ GameObject:
   - component: {fileID: 5376434788100818447}
   - component: {fileID: 6386958936116281868}
   - component: {fileID: 6386958936116281867}
-  - component: {fileID: 2852452469940891850}
   - component: {fileID: 6386958935926924378}
+  - component: {fileID: 2852452469940891850}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -251,20 +251,6 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  force: 200
-  durationInTimesteps: 7
---- !u!114 &2852452469940891850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6386958936700050764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11a82b927cfea49e4beb3280a0e03005, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6386958935926924378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,4 +264,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
-  damageAnimationDuration: 1
+  knockbackForce: 100
+  knockbackDuration: 0.5
+  redFlashingDuration: 1
+--- !u!114 &2852452469940891850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6386958936700050764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11a82b927cfea49e4beb3280a0e03005, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

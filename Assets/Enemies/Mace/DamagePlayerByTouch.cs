@@ -16,10 +16,7 @@ public class DamagePlayerByTouch : MonoBehaviour
 
         ContactPoint2D hit = collision.GetContact(0);
 
-        Health health = collision.gameObject.GetComponent<Health>();
-        health.GetDamage(20);
-
-        Movement movement = collision.gameObject.GetComponent<Movement>();
-        movement.Knockback(-hit.normal);
+        HealthAndDamage health = collision.gameObject.GetComponent<HealthAndDamage>();
+        health.GetDamageInDirection(20, -hit.normal);
     }
 }

@@ -10,17 +10,12 @@ public enum JumpingState
 
 public class Movement : MonoBehaviour
 {
-    [Header("Movement")]
     public float moveSpeed;
     public float jumpSpeed;
 
     public float minHeightToShowJumpAnimation;
 
     public LayerMask groundLayer;
-
-    [Header("Knockback")]
-    public float force;
-    public int durationInTimesteps;
 
     private Rigidbody2D playerRigidbody;
     private BoxCollider2D legsCollider;
@@ -29,8 +24,7 @@ public class Movement : MonoBehaviour
     private Animator animator;
 
     private JumpingState jumpingState;
-
-    private int activeKnockbacksCount;
+    private bool isFreezed;
 
     public void Start()
     {
@@ -41,13 +35,12 @@ public class Movement : MonoBehaviour
         animator = gameObject.GetComponent<Animator>();
 
         jumpingState = JumpingState.NotJumping;
-
-        activeKnockbacksCount = 0;
+        isFreezed = false;
     }
 
     public void FixedUpdate()
     {
-        if (activeKnockbacksCount > 0)
+        if (isFreezed)
         {
             return;
         }
@@ -151,25 +144,21 @@ public class Movement : MonoBehaviour
         return hit.distance;
     }
 
-    public void Knockback(in Vector2 direction)
+    public void Freeze()
     {
-        StartCoroutine(DoKnockback(direction));
+        if (!isFreezed)
+        {
+            isFreezed = true;
+            animator.speed = 0.0f;
+        }
     }
 
-    private IEnumerator DoKnockback(Vector2 direction)
+    public void Unfreeze()
     {
-        ++activeKnockbacksCount;
-
-        Vector2 forceVector = direction * force;
-
-        for (int i = 0; i < durationInTimesteps; ++i)
+        if (isFreezed)
         {
-            playerRigidbody.AddForce(forceVector, ForceMode2D.Force);
-            yield return new WaitForEndOfFrame();
+            isFreezed = false;
+            animator.speed = 1.0f;
         }
-
-        playerRigidbody.velocity = Vector2.zero;
-
-        --activeKnockbacksCount;
     }
 }
