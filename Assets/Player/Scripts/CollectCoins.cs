@@ -1,12 +1,25 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CollectCoins : MonoBehaviour
 {
-    private int coinsCount;
+    public Text coinsCountText;
+    public int coinsCount { get; private set; }
+
+    public void Start()
+    {
+        coinsCount = 0;
+        UpdateCoinsCountText();
+    }
 
     public void AddCoins(int count)
     {
         coinsCount += count;
-        Debug.Log($"Coins: {coinsCount}");
+        UpdateCoinsCountText();
+    }
+
+    private void UpdateCoinsCountText()
+    {
+        coinsCountText.text = coinsCount.ToString();
     }
 }

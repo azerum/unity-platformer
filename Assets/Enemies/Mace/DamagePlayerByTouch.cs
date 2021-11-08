@@ -22,6 +22,6 @@ public class DamagePlayerByTouch : MonoBehaviour
         ContactPoint2D hit = collision.GetContact(0);
 
         KnockbackOnDamage knockback = collision.gameObject.GetComponent<KnockbackOnDamage>();
-        knockback?.KnockbackInDirection(-hit.normal);
+        knockback.KnockbackInDirection(-hit.normal);
     }
 }

@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class KnockbackOnDamage : MonoBehaviour
 {
-    public float force;
-    public float duration;
+    public int durationInTimesteps;
+    public float distanceFromHitPoint;
 
     private Rigidbody2D playerRigidbody;
     private Movement playerMovement;
@@ -28,15 +28,22 @@ public class KnockbackOnDamage : MonoBehaviour
     {
         OnKnockbackStart();
 
-        float timeLeft = duration;
+        //v0 (initial velocity) is 0
+        playerRigidbody.velocity = Vector2.zero;
+
+        //S = v0t + 1/2at^2 = 1/2at^2
+        //a = 2S/t^2
+
+        float duration = durationInTimesteps * Time.fixedDeltaTime;
+        float acceleration = 2 * distanceFromHitPoint / (duration * duration);
+
+        float force = acceleration * playerRigidbody.mass;
         Vector2 forceVector = direction * force;
 
-        while (timeLeft > 0.0f)
+        for (int i = 0; i < durationInTimesteps; ++i)
         {
             playerRigidbody.AddForce(forceVector, ForceMode2D.Force);
-
             yield return new WaitForFixedUpdate();
-            timeLeft -= Time.deltaTime;
         }
 
         OnKnockbackEnd();
@@ -45,9 +52,7 @@ public class KnockbackOnDamage : MonoBehaviour
     private void OnKnockbackStart()
     {
         ++activeKnockbacksCount;
-
         playerMovement.Freeze();
-        playerRigidbody.velocity = Vector2.zero;
     }
 
     private void OnKnockbackEnd()
@@ -56,8 +61,8 @@ public class KnockbackOnDamage : MonoBehaviour
 
         if (activeKnockbacksCount == 0)
         {
-            playerMovement.Unfreeze();
             playerRigidbody.velocity = Vector2.zero;
+            playerMovement.Unfreeze();
         }
     }
 }

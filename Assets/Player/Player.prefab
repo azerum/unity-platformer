@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 6386958936116281868}
   - component: {fileID: 6386958936116281867}
   - component: {fileID: 3155388967955848422}
-  - component: {fileID: 7938630149791890508}
+  - component: {fileID: 4502309849792537714}
   - component: {fileID: 2852452469940891850}
   m_Layer: 0
   m_Name: Player
@@ -266,7 +266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   redFlashingFromDamageDuration: 1
---- !u!114 &7938630149791890508
+--- !u!114 &4502309849792537714
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -278,8 +278,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c42df46613d34440a954b9e226a18c4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: 300
-  duration: 0.1
+  force: 250
+  durationInTimesteps: 7
 --- !u!114 &2852452469940891850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,3 +292,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11a82b927cfea49e4beb3280a0e03005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coinsCountText: {fileID: 0}
