@@ -4,35 +4,37 @@ public class MoveFromPointToPoint : MonoBehaviour
 {
     public Transform pointA;
     public Transform pointB;
-
     public float speed;
 
-    private Rigidbody2D sawRigidbody;
-    private Collider2D collider;
+    private Bounds aBounds;
+    private Bounds bBounds;
 
-    private bool isMovingTowardsA;
+    private Rigidbody2D sawRigidbody;
+    private bool isMovingTowardsB;
 
     public void Start()
     {
         sawRigidbody = gameObject.GetComponent<Rigidbody2D>();
-        collider = gameObject.GetComponent<CircleCollider2D>();
+
+        aBounds = new Bounds(pointA.position, Vector3.one);
+        bBounds = new Bounds(pointB.position, Vector3.one);
 
         transform.position = pointA.position;
-        isMovingTowardsA = false;
+        isMovingTowardsB = true;
 
-        Vector2 direction = pointB.position - pointA.position;
-        direction.Normalize();
+        Vector2 directionFromAToB = pointB.position - pointA.position;
+        directionFromAToB.Normalize();
 
-        sawRigidbody.velocity = direction * speed;
+        sawRigidbody.velocity = directionFromAToB * speed;
     }
 
     public void FixedUpdate()
     {
-        Vector2 point = isMovingTowardsA ? pointA.position : pointB.position;
+        Bounds pointBounds = isMovingTowardsB ? bBounds : aBounds;
 
-        if (collider.bounds.Contains(point))
+        if (pointBounds.Contains(transform.position))
         {
-            isMovingTowardsA = !isMovingTowardsA;
+            isMovingTowardsB = !isMovingTowardsB;
             sawRigidbody.velocity = -sawRigidbody.velocity;
         }
     }

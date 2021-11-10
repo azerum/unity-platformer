@@ -3729,6 +3729,30 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1839078971 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6573101540626212674, guid: 480b4e7e65afd4c4faa599b387d2b608, type: 3}
+  m_PrefabInstance: {fileID: 6573101542411811193}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1839078972
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839078971}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b7adece9fa7fb4394abe41feb61deff0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!4 &1839078973 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6573101540626212676, guid: 480b4e7e65afd4c4faa599b387d2b608, type: 3}
@@ -3877,7 +3901,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4502309849792537714, guid: eb6f20d61264849f1866a289720ff79a, type: 3}
       propertyPath: distanceFromHitPoint
-      value: 3
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 6386958936700050762, guid: eb6f20d61264849f1866a289720ff79a, type: 3}
       propertyPath: m_RootOrder
@@ -3942,7 +3966,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1839078972, guid: 480b4e7e65afd4c4faa599b387d2b608, type: 3}
       propertyPath: speed
-      value: 100
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1839078972, guid: 480b4e7e65afd4c4faa599b387d2b608, type: 3}
       propertyPath: pointA
@@ -3962,7 +3986,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6573101540626212676, guid: 480b4e7e65afd4c4faa599b387d2b608, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.91
+      value: 6.8
       objectReference: {fileID: 0}
     - target: {fileID: 6573101540626212676, guid: 480b4e7e65afd4c4faa599b387d2b608, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3978,15 +4002,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6573101540626212676, guid: 480b4e7e65afd4c4faa599b387d2b608, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6573101540626212676, guid: 480b4e7e65afd4c4faa599b387d2b608, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6573101540626212676, guid: 480b4e7e65afd4c4faa599b387d2b608, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6573101540626212676, guid: 480b4e7e65afd4c4faa599b387d2b608, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
