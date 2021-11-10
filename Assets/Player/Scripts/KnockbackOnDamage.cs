@@ -13,8 +13,8 @@ public class KnockbackOnDamage : MonoBehaviour
 
     public void Start()
     {
-        playerRigidbody = gameObject.GetComponent<Rigidbody2D>();
-        playerMovement = gameObject.GetComponent<Movement>();
+        playerRigidbody = GetComponent<Rigidbody2D>();
+        playerMovement = GetComponent<Movement>();
 
         activeKnockbacksCount = 0;
     }
@@ -31,7 +31,8 @@ public class KnockbackOnDamage : MonoBehaviour
         //v0 (initial velocity) is 0
         playerRigidbody.velocity = Vector2.zero;
 
-        //S = v0t + 1/2at^2 = 1/2at^2
+        //S = v0t + 1/2at^2
+        //S = 1/2at^2
         //a = 2S/t^2
 
         float duration = durationInTimesteps * Time.fixedDeltaTime;

@@ -10,7 +10,7 @@ public class FollowPlayer : MonoBehaviour
 
     public void Start()
     {
-        Camera camera = gameObject.GetComponent<Camera>();
+        Camera camera = GetComponent<Camera>();
         Vector2 cameraHalfSize = CalculateCameraHalfSizeInUnits(camera);
 
         Bounds backgroundBounds = background.GetComponent<SpriteRenderer>().bounds;

@@ -12,14 +12,14 @@ public class CollectCoins : MonoBehaviour
         UpdateCoinsCountText();
     }
 
+    private void UpdateCoinsCountText()
+    {
+        coinsCountText.text = coinsCount.ToString();
+    }
+
     public void AddCoins(int count)
     {
         coinsCount += count;
         UpdateCoinsCountText();
-    }
-
-    private void UpdateCoinsCountText()
-    {
-        coinsCountText.text = coinsCount.ToString();
     }
 }

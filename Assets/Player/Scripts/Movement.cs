@@ -27,11 +27,11 @@ public class Movement : MonoBehaviour
 
     public void Start()
     {
-        playerRigidbody = gameObject.GetComponent<Rigidbody2D>();
-        legsCollider = gameObject.GetComponentInChildren<BoxCollider2D>();
+        playerRigidbody = GetComponent<Rigidbody2D>();
+        legsCollider = GetComponentInChildren<BoxCollider2D>();
 
-        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-        animator = gameObject.GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
 
         flyingAnimationState = FlyingAnimationState.NotFlying;
         isFrozen = false;

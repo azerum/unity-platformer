@@ -11,8 +11,10 @@ GameObject:
   - component: {fileID: 6573101540626212676}
   - component: {fileID: 6573101540626212677}
   - component: {fileID: 1839078974}
+  - component: {fileID: 6920208260643340134}
   - component: {fileID: 234608735072398672}
   - component: {fileID: 1839078972}
+  - component: {fileID: 8852758308326193832}
   m_Layer: 3
   m_Name: Saw
   m_TagString: Untagged
@@ -93,7 +95,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6573101540626212674}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -106,6 +108,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &6920208260643340134
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6573101540626212674}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b7adece9fa7fb4394abe41feb61deff0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!58 &234608735072398672
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -131,9 +152,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 6573101540626212674}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08a15de44ea6b444686be193d66b7965, type: 3}
+  m_Script: {fileID: 11500000, guid: a4f012ad769f844abb6a6fc497cff4a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pointA: {fileID: 0}
   pointB: {fileID: 0}
-  speed: 1
+  speed: 5
+--- !u!114 &8852758308326193832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6573101540626212674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7d74103812df40f198a75057fa1a97a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minDamage: 0
+  maxDamageExclusive: 0
