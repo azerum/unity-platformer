@@ -157,7 +157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointA: {fileID: 0}
   pointB: {fileID: 0}
-  speed: 5
+  speed: 6
 --- !u!114 &8852758308326193832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,5 +170,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7d74103812df40f198a75057fa1a97a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDamage: 0
-  maxDamageExclusive: 0
+  minDamage: 5
+  maxDamageExclusive: 21

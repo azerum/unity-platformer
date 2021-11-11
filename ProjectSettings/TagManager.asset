@@ -39,6 +39,24 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 2653467549
+    locked: 0
+  - name: BehindPlants
+    uniqueID: 1887031953
+    locked: 0
+  - name: Plants
+    uniqueID: 1547447215
+    locked: 0
+  - name: Ground
+    uniqueID: 1823748457
+    locked: 0
+  - name: FrontPlants
+    uniqueID: 81042277
+    locked: 0
+  - name: Player
+    uniqueID: 2183279525
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
