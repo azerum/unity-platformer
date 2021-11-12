@@ -6,6 +6,7 @@ public class OpenChestByTouch : MonoBehaviour
     public GameObject coinAsset;
     public int cointsCount;
 
+    [Header("Coins throwing settings")]
     public float minThrowDelay;
     public float maxThrowDelay;
 
@@ -53,17 +54,14 @@ public class OpenChestByTouch : MonoBehaviour
         GameObject coin = Instantiate(coinAsset, transform.position, Quaternion.identity);
         Rigidbody2D rigidbody = coin.GetComponent<Rigidbody2D>();
 
-        bool mirror = Random.Range(0, 2) == 1;
+        bool left = Random.Range(0, 2) == 1;
         float angle = Random.Range(minThrowAngle, maxThrowAngle);
 
-        if (mirror)
-        {
-            angle = 180 - angle;
-        }
+        float angleRelativeToChest = left ? 90 + angle : 90 - angle;
 
         float imulse = Random.Range(minThrowImpulse, maxThrowImpulse);
 
-        Vector3 direction = Quaternion.AngleAxis(angle, Vector3.forward) * Vector3.right;
+        Vector3 direction = Quaternion.AngleAxis(angleRelativeToChest, Vector3.forward) * Vector3.right;
         rigidbody.AddForce(direction * imulse, ForceMode2D.Impulse);
     }
 }

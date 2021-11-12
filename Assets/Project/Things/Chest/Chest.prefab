@@ -71,9 +71,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingLayerID: 81042277
+  m_SortingLayer: -2
+  m_SortingOrder: 0
   m_Sprite: {fileID: -2318594919933122682, guid: 7c06cf3384036714182059269bbce750, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
   cointsCount: 10
   minThrowDelay: 0.1
   maxThrowDelay: 0.2
-  minThrowAngle: 70
-  maxThrowAngle: 90
+  minThrowAngle: 0
+  maxThrowAngle: 20
   minThrowImpulse: 5
-  maxThrowImpulse: 8
+  maxThrowImpulse: 6
