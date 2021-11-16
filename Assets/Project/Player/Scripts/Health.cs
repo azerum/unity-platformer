@@ -44,6 +44,23 @@ public class Health : MonoBehaviour
 
         UpdateHpText();
 
+        if (hp <= 0)
+        {
+            Die();
+        }
+        else
+        {
+            ShowRedFlashingAnimation();
+        }
+    }
+
+    private void Die()
+    {
+        Time.timeScale = 0.0f;
+    }
+
+    private void ShowRedFlashingAnimation()
+    {
         if (redFlashing != null)
         {
             StopCoroutine(redFlashing);
