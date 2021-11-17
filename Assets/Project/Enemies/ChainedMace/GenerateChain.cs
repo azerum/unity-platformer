@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [ExecuteAlways]
@@ -6,18 +7,25 @@ public class GenerateChain : MonoBehaviour
     public int fragmentsCount = 0;
     public GameObject chainFragmentAsset;
 
+    private Rigidbody2D myLastChainPart;
     private Transform fragmentsTransform;
+    private MaceEnd mace;
 
     public void Start()
     {
+        myLastChainPart = transform.Find("LastPart").GetComponent<Rigidbody2D>();
         fragmentsTransform = transform.Find("Fragments");
+        mace = transform.Find("MaceEnd").GetComponent<MaceEnd>();
+
         UpdateFragmentsCount();
     }
 
+#if UNITY_EDITOR
     public void Update()
     {
         UpdateFragmentsCount();
     }
+#endif
 
     private void UpdateFragmentsCount()
     {
@@ -42,20 +50,7 @@ public class GenerateChain : MonoBehaviour
 
     private void AddFragments(int count)
     {
-        Rigidbody2D lastChainPart;
-
-        if (fragmentsTransform.transform.childCount == 0)
-        {
-            lastChainPart =
-                transform.Find("LastPart").gameObject.GetComponent<Rigidbody2D>();
-        }
-        else
-        {
-            Transform transform =
-                fragmentsTransform.GetChild(fragmentsTransform.childCount - 1);
-
-            lastChainPart = transform.GetComponent<Rigidbody2D>();
-        }
+        Rigidbody2D lastChainPart = GetLastChainPart();
 
         for (int i = 0; i < count; ++i)
         {
@@ -67,22 +62,43 @@ public class GenerateChain : MonoBehaviour
             chainFragment.SetPreviousChainPart(lastChainPart);
             lastChainPart = chainFragment.lastPartRigidbody;
         }
+
+        //mace.ConnectTo(lastChainPart);
     }
 
     private void RemoveFragments(int count)
     {
-        for (int i = fragmentsTransform.childCount - 1 - count; i >= 0; --i)
-        {
-            GameObject fragment = fragmentsTransform.GetChild(i).gameObject;
+        int removeCount = Math.Min(fragmentsTransform.childCount, count);
+        int removed = 0;
 
-            if (Application.isEditor)
-            {
-                DestroyImmediate(fragment);
-            }
-            else
-            {
-                Destroy(fragment);
-            }
+        while (removed < removeCount)
+        {
+            int lastIndex = fragmentsTransform.childCount - 1;
+            GameObject fragment = fragmentsTransform.GetChild(lastIndex).gameObject;
+
+#if UNITY_EDITOR
+            DestroyImmediate(fragment, allowDestroyingAssets: false);
+#else
+            Destroy(fragment);
+#endif
+            ++removed;
         }
+
+        //mace.ConnectTo(GetLastChainPart());
+    }
+
+    private Rigidbody2D GetLastChainPart()
+    {
+        if (fragmentsTransform.childCount == 0)
+        {
+            return myLastChainPart;
+        }
+
+        Transform transform =
+            fragmentsTransform.GetChild(fragmentsTransform.childCount - 1);
+
+        ChainFragment chainFragment = transform.GetComponent<ChainFragment>();
+
+        return chainFragment.lastPartRigidbody;
     }
 }
