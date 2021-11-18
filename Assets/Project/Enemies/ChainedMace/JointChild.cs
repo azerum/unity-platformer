@@ -13,20 +13,12 @@ public class JointChild : MonoBehaviour
     public void ConnectTo(JointParent jointParent)
     {
         joint.connectedBody = jointParent.body;
-        joint.connectedAnchor = jointParent.anchor;
+        joint.connectedAnchor = jointParent.anchor.localPosition;
 
-        MoveToFitAnchor();
-    }
+        Vector3 connectedAnchorWorld = jointParent.anchor.position;
+        Vector3 anchorWorld = joint.transform.TransformPoint(joint.anchor);
 
-    private void MoveToFitAnchor()
-    {
-        Vector3 connectedAnchorWorld =
-            joint.connectedBody.transform.TransformPoint(joint.connectedAnchor);
-
-        Vector3 anchorWorld = transform.TransformPoint(joint.anchor);
-
-        Vector3 movementVector = connectedAnchorWorld - anchorWorld;
-
-        transform.position += movementVector;
+        Vector3 moveVector = connectedAnchorWorld - anchorWorld;
+        transform.position += moveVector;
     }
 }

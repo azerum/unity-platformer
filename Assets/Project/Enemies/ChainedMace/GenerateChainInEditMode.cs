@@ -14,7 +14,10 @@ public class GenerateChainInEditMode : MonoBehaviour
 
     public void Start()
     {
-        maceEnd.ConnectTo(maceStart);
+        if (fragmentsCount == 0)
+        {
+            maceEnd.ConnectTo(maceStart);
+        }
     }
 
     public void Update()
@@ -62,18 +65,12 @@ public class GenerateChainInEditMode : MonoBehaviour
         int currentCount = fragmentsContainer.childCount;
         int removeCount = Math.Min(currentCount, count);
 
-        for (int childIndex = currentCount - 1 - removeCount; childIndex >= 0; --childIndex)
+        for (int i = 0; i < removeCount; ++i)
         {
-            GameObject child = fragmentsContainer.GetChild(childIndex).gameObject;
+            GameObject child =
+                fragmentsContainer.GetChild(currentCount - 1 - i).gameObject;
 
-            if (Application.isEditor)
-            {
-                DestroyImmediate(child, allowDestroyingAssets: false);
-            }
-            else
-            {
-                Destroy(child);
-            }
+            DestroyImmediate(child, allowDestroyingAssets: false);
         }
 
         maceEnd.ConnectTo(GetLastPart());

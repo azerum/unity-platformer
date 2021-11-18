@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 5603582268954791354}
-  anchorPointInsideBody: {fileID: 8539339051491257099}
+  anchor: {fileID: 8539339051491257099}
 --- !u!1 &3121813562498041466
 GameObject:
   m_ObjectHideFlags: 0
