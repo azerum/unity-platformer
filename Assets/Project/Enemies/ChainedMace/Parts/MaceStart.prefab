@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3121813562253156226}
   - component: {fileID: 3121813562253156227}
   - component: {fileID: 5197792187296360491}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HorizontalBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3121813562372569121}
   - component: {fileID: 4204875597618965828}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MaceStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,7 +162,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3121813562498041467}
   - component: {fileID: 3121813562498041464}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -243,7 +243,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8539339051491257099}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Anchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -277,7 +277,7 @@ GameObject:
   - component: {fileID: 5603582268954791354}
   - component: {fileID: 5603582268954791348}
   - component: {fileID: 5603582268954791349}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: VerticalBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -402,7 +402,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0.122}
-  m_ConnectedAnchor: {x: 5.644115, y: 0.29593638}
+  m_ConnectedAnchor: {x: 11.182306, y: 2.1109998}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0

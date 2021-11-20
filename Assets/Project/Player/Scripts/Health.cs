@@ -56,7 +56,7 @@ public class Health : MonoBehaviour
 
     private void Die()
     {
-        Time.timeScale = 0.0f;
+        //Time.timeScale = 0.0f;
     }
 
     private void ShowRedFlashingAnimation()
